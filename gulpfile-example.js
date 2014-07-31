@@ -14,14 +14,14 @@ var guilty = require('./gulp-guilty/index')({
 require('./gulp-guilty/images')(gulp, guilty);
 require('./gulp-guilty/compass')(gulp, guilty);
 require('./gulp-guilty/coffee')(gulp, guilty);
-require('./gulp-guilty/javaScript')(gulp, guilty);
+//require('./gulp-guilty/js')(gulp, guilty);
 
 
 // Main
 gulp.task(
 	taskNameGroup,
 	guilty.taskName([
-		'clean',
+		//'clean',
 		'images',
 		'compass',
 		'coffee'

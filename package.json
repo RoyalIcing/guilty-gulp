@@ -20,6 +20,7 @@
     "gulp-clean": "~0.2.4",
     "gulp-coffee": "^2.1.1",
     "gulp-compass": "^1.2.0",
+    "gulp-jst-concat": "0.0.1",
     "gulp-minify-css": "^0.3.7",
     "gulp-notify": "^1.4.0",
     "gulp-plumber": "^0.6.4",

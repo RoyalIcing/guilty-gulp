@@ -1,17 +1,20 @@
-var jst = require('gulp-jst');
+var jstConcat = require('gulp-jst-concat');
 
-module.exports = function jstTask(gulp, guilty)
+module.exports = function javaScriptTask(gulp, guilty)
 {
 	gulp.task(
 		guilty.taskName('jst'),
-		[
-			guilty.taskName('setup')
-		],
+		guilty.taskName([
+			'setup'
+		]),
 		function() {
-			return gulp.src(guilty.srcPath('**/*.jst'))
-				.pipe(jst())
-				.pipe(guilty.dest('templates'))
+			var jstStream = gulp.src(guilty.srcPath('**/*.jst'))
+				.pipe(jstConcat('jst.js'))
+				.pipe(guilty.destJS('js'))
 			;
+			
+			//return jstStream.pipe(gulp.src(guilty.srcPath('**/*.js'), {base: guilty.srcPath()}))
+				.pipe(guilty.destJS('js'));
 		}
 	);
 };
