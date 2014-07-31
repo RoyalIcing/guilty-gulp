@@ -1,3 +1,4 @@
+var gulp = require('gulp');
 var gulputil = require('gulp-util');
 var path = require('path');
 var minifyCSS = require('gulp-minify-css');
