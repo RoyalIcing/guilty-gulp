@@ -10,7 +10,7 @@ var guilty = require('./gulp-guilty/index')({
 });
 
 require('./gulp-guilty/images')(gulp, guilty);
-require('./gulp-guilty/compass')(gulp, guilty);
+require('./gulp-guilty/compass')(gulp, guilty, 'main.scss', './');
 //require('./gulp-guilty/coffee')(gulp, guilty);
 //require('./gulp-guilty/js')(gulp, guilty);
 require('./gulp-guilty/js-browserify')(gulp, guilty, 'main.js');
