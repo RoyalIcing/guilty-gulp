@@ -120,10 +120,8 @@ var setUpWatchTask = function()
 {
 	var watchFunctions = this.watchFunctions;
 	
-	gulp.task(guilty.taskName('watch'), function() {
-		//_.each(watchFunctions, function(watchFunction) {
-		//	
-		//});
+	gulp.task(this.taskName('watch'), function() {
+		// Call all the watch functions.
 		_.invoke(watchFunctions, 'call');
 	});
 }
@@ -148,6 +146,7 @@ module.exports = function(options) {
 		taskName: taskName,
 		setUpBaseTasks: setUpBaseTasks,
 		watchFunctions: [],
+		addWatch: addWatch,
 		setUpWatchTask: setUpWatchTask,
 		watch: (typeof(options.watch) !== 'undefined')  ? options.watch : true
 	};
