@@ -1,6 +1,6 @@
 var jstConcat = require('gulp-jst-concat');
 
-module.exports = function javaScriptTask(gulp, guilty)
+module.exports = function jsTask(gulp, guilty)
 {
 	gulp.task(
 		guilty.taskName('js'),

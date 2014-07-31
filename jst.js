@@ -1,6 +1,6 @@
 var jstConcat = require('gulp-jst-concat');
 
-module.exports = function javaScriptTask(gulp, guilty)
+module.exports = function jstTask(gulp, guilty)
 {
 	gulp.task(
 		guilty.taskName('jst'),
@@ -14,7 +14,7 @@ module.exports = function javaScriptTask(gulp, guilty)
 			;
 			
 			//return jstStream.pipe(gulp.src(guilty.srcPath('**/*.js'), {base: guilty.srcPath()}))
-				.pipe(guilty.destJS('js'));
+			//	.pipe(guilty.destJS('js'));
 		}
 	);
 	

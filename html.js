@@ -1,4 +1,4 @@
-module.exports = function compassTask(gulp, guilty)
+module.exports = function htmlTask(gulp, guilty)
 {
 	gulp.task(
 		guilty.taskName('html'),
