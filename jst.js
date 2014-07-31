@@ -9,7 +9,9 @@ module.exports = function javaScriptTask(gulp, guilty)
 		]),
 		function() {
 			var jstStream = gulp.src(guilty.srcPath('**/*.jst'))
-				.pipe(jstConcat('jst.js'))
+				.pipe(jstConcat('jst.js', {
+					renameKeys: ['^.*/(.*).jst$', '$1']
+				}))
 				.pipe(guilty.destJS('js'))
 			;
 			
