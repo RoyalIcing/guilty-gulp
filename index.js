@@ -111,12 +111,29 @@ var setUpBaseTasks = function()
 	});
 }
 
+var addWatch = function(watchFunction)
+{
+	this.watchFunctions.push(watchFunction);
+}
+
+var setUpWatchTask = function()
+{
+	var watchFunctions = this.watchFunctions;
+	
+	gulp.task(guilty.taskName('watch'), function() {
+		//_.each(watchFunctions, function(watchFunction) {
+		//	
+		//});
+		_.invoke(watchFunctions, 'call');
+	});
+}
 
 
-var baseSrcFolder = './src/'
-var baseDestFolder = isProduction() ? './prod/' : './dev/';
 
 module.exports = function(options) {
+	var baseSrcFolder = './src/'
+	var baseDestFolder = isProduction() ? './prod/' : './dev/';
+	
 	var newInstance = {
 		taskNameGroup: options.taskNameGroup,
 		isProduction: isProduction,
@@ -129,12 +146,19 @@ module.exports = function(options) {
 		destCSS: destCSS,
 		destJS: destJS,
 		taskName: taskName,
-		setUpBaseTasks: setUpBaseTasks
+		setUpBaseTasks: setUpBaseTasks,
+		watchFunctions: [],
+		setUpWatchTask: setUpWatchTask,
+		watch: (typeof(options.watch) !== 'undefined')  ? options.watch : true
 	};
 	
-	_.bindAll(newInstance, 'dest');
+	_.bindAll(newInstance, 'srcPath', 'destPath', 'dest', 'destCSS', 'destJS', 'taskName');
 	
 	newInstance.setUpBaseTasks();
+	
+	if (newInstance.watch) {
+		newInstance.setUpWatchTask();
+	}
 	
 	return newInstance;
 };

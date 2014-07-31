@@ -5,45 +5,59 @@ gulp.on('err', function(e) {
 
 ///////////////////////////////////////////////////////////////////
 
-var taskNameGroup = 'main';
-
 var guilty = require('./gulp-guilty/index')({
-	taskNameGroup: taskNameGroup
+	taskNameGroup: 'main'
 });
 
 require('./gulp-guilty/images')(gulp, guilty);
 require('./gulp-guilty/compass')(gulp, guilty);
-require('./gulp-guilty/coffee')(gulp, guilty);
-//require('./gulp-guilty/js')(gulp, guilty);
+//require('./gulp-guilty/coffee')(gulp, guilty);
+require('./gulp-guilty/js')(gulp, guilty);
+require('./gulp-guilty/jst')(gulp, guilty);
 
 
 // Main
 gulp.task(
-	taskNameGroup,
+	guilty.taskNameGroup,
 	guilty.taskName([
 		//'clean',
 		'images',
 		'compass',
-		'coffee'
+		//'coffee',
+		'js',
+		'jst',
+		'html'
+		//'js'
 	])
 );
 
-// Watch
+
 gulp.task(guilty.taskName('watch'), function() {
 	// SASS
-	gulp.watch('./src/**/*.scss', [taskNameGroup]);
-	//gulp.watch('./sass/admin/*.scss', ['admin-compass']);
+	gulp.watch(guilty.srcPath('**/*.scss'), [guilty.taskName('compass')]);
 	
-	// COFFEE
-	gulp.watch('./src/**/*.coffee', [taskNameGroup]);
-	//gulp.watch('./src/**/*.js', [taskNameGroup]);
+	// JAVASCRIPT and COFFEE
+	gulp.watch(guilty.srcPath('**/*.js'), [guilty.taskName('js')]);
+	gulp.watch(guilty.srcPath('**/*.jst'), [guilty.taskName('jst')]);
+	gulp.watch(guilty.srcPath('**/*.coffee'), [guilty.taskName('coffee')]);
+	
+	// HTML
+	gulp.watch(guilty.srcPath('**/*.html'), [guilty.taskName('html')]);
 });
 
-// Default
+
 gulp.task(
 	'default',
 	[
-		taskNameGroup,
+		guilty.taskNameGroup
+	]
+);
+
+
+gulp.task(
+	'watch',
+	[
+		guilty.taskNameGroup,
 		guilty.taskName('watch')
 	]
 );

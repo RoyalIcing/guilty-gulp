@@ -17,4 +17,8 @@ module.exports = function javaScriptTask(gulp, guilty)
 				.pipe(guilty.destJS('js'));
 		}
 	);
+	
+	guilty.addWatch(function() {
+		gulp.watch(guilty.srcPath('**/*.jst'), [guilty.taskName('jst')]);
+	});
 };

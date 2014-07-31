@@ -32,4 +32,8 @@ module.exports = function coffeeTask(gulp, guilty)
 			;
 		}
 	);
+	
+	guilty.addWatch(function() {
+		gulp.watch(guilty.srcPath('**/*.coffee'), [guilty.taskName('coffee')]);
+	});
 };

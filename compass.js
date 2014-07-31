@@ -34,4 +34,8 @@ module.exports = function compassTask(gulp, guilty)
 			;
 		}
 	);
+	
+	guilty.addWatch(function() {
+		gulp.watch(guilty.srcPath('**/*.scss'), [guilty.taskName('compass')]);
+	});
 };
