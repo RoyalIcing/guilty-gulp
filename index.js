@@ -4,6 +4,7 @@ var path = require('path');
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var lazypipe = require('lazypipe');
+var streamify = require('gulp-streamify');
 var clean = require('gulp-clean');
 var _ = require('underscore');
 
@@ -23,7 +24,7 @@ var shouldClean = function()
 var srcPath = function(filePath)
 {
 	if (filePath == null) {
-		return filePath = '';
+		filePath = '';
 	}
 	
 	return path.join(this.baseSrcFolder, filePath);
@@ -68,7 +69,7 @@ var destJS = function(filePath)
 	var stream = lazypipe();
 	
 	if (this.isProduction()) {
-		stream = stream.pipe(uglify);
+		stream = stream.pipe(streamify, uglify());
 	}
 	
 	stream = stream.pipe(this.dest, filePath);

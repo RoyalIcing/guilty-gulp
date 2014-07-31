@@ -12,8 +12,11 @@ var guilty = require('./gulp-guilty/index')({
 require('./gulp-guilty/images')(gulp, guilty);
 require('./gulp-guilty/compass')(gulp, guilty);
 //require('./gulp-guilty/coffee')(gulp, guilty);
-require('./gulp-guilty/js')(gulp, guilty);
+//require('./gulp-guilty/js')(gulp, guilty);
+require('./gulp-guilty/js-browserify')(gulp, guilty, 'main.js');
 require('./gulp-guilty/jst')(gulp, guilty);
+require('./gulp-guilty/copy')(gulp, guilty, 'vendor-js', 'vendor-js/porthole.min.js');
+require('./gulp-guilty/html')(gulp, guilty);
 
 
 // Main
@@ -24,26 +27,13 @@ gulp.task(
 		'images',
 		'compass',
 		//'coffee',
-		'js',
+		'js-browserify',
 		'jst',
+		'vendor-js',
 		'html'
 		//'js'
 	])
 );
-
-
-gulp.task(guilty.taskName('watch'), function() {
-	// SASS
-	gulp.watch(guilty.srcPath('**/*.scss'), [guilty.taskName('compass')]);
-	
-	// JAVASCRIPT and COFFEE
-	gulp.watch(guilty.srcPath('**/*.js'), [guilty.taskName('js')]);
-	gulp.watch(guilty.srcPath('**/*.jst'), [guilty.taskName('jst')]);
-	gulp.watch(guilty.srcPath('**/*.coffee'), [guilty.taskName('coffee')]);
-	
-	// HTML
-	gulp.watch(guilty.srcPath('**/*.html'), [guilty.taskName('html')]);
-});
 
 
 gulp.task(

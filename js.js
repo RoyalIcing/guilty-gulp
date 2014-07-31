@@ -1,5 +1,3 @@
-var jstConcat = require('gulp-jst-concat');
-
 module.exports = function jsTask(gulp, guilty)
 {
 	gulp.task(
