@@ -2,7 +2,7 @@ var compass = require('gulp-compass');
 var prefix = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
 
-modules.export = function compass(gulp, guilty)
+module.exports = function compassTask(gulp, guilty)
 {
 	gulp.task(guilty.taskName('compass'),
 		[
@@ -23,10 +23,10 @@ modules.export = function compass(gulp, guilty)
 				.pipe(compass({
 					//config_file: './config.rb',
 					sass: './src',
-					css: getAssetsPath('css'),
-					image: getAssetsPath('images'),
-					javascript: getAssetsPath('js'),
-					font: getAssetsPath('font')
+					css: guilty.destPath('css'),
+					image: guilty.destPath('images'),
+					javascript: guilty.destPath('js'),
+					font: guilty.destPath('font')
 				}))
 				.pipe(prefix('last 2 version', '> 1%', 'ie 8'))
 				.pipe(guilty.destCSS('/'))

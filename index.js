@@ -8,11 +8,17 @@ var clean = require('gulp-clean');
 var _ = require('underscore');
 
 
-// Use by adding --production to gulp command
-var isProduction = !!(gulputil.env.production);
-// Use by adding --clean to gulp command
-var shouldClean = !!(gulputil.env.clean) || isProduction;
+var isProduction = function()
+{
+	// Use by adding --production to gulp command
+	return !!(gulputil.env.production);
+}
 
+var shouldClean = function()
+{
+	// Use by adding --clean to gulp command
+	return !!(gulputil.env.clean) || this.isProduction();
+}
 
 var srcPath = function(filePath)
 {
@@ -46,11 +52,11 @@ var destCSS = function(filePath)
 {
 	var stream = lazypipe();
 	
-	if (isProduction) {
+	if (this.isProduction()) {
 		stream = stream.pipe(minifyCSS);
 	}
 	
-	stream = stream.pipe(assetsDest, filePath);
+	stream = stream.pipe(this.dest, filePath);
 	
 	return stream();
 }
@@ -61,11 +67,11 @@ var destJS = function(filePath)
 	
 	var stream = lazypipe();
 	
-	if (isProduction) {
+	if (this.isProduction()) {
 		stream = stream.pipe(uglify);
 	}
 	
-	stream = stream.pipe(assetsDest, filePath);
+	stream = stream.pipe(this.dest, filePath);
 	
 	return stream();
 }
@@ -100,7 +106,7 @@ var setUpBaseTasks = function()
 		;
 	});
 
-	gulp.task(this.taskName('setup'), shouldClean ? [this.taskName('clean')] : [], function(cb) {
+	gulp.task(this.taskName('setup'), this.shouldClean() ? [this.taskName('clean')] : [], function(cb) {
 		cb();
 	});
 }
@@ -108,7 +114,7 @@ var setUpBaseTasks = function()
 
 
 var baseSrcFolder = './src/'
-var baseDestFolder = isProduction ? './prod/' : './dev/';
+var baseDestFolder = isProduction() ? './prod/' : './dev/';
 
 module.exports = function(options) {
 	var newInstance = {
@@ -125,6 +131,8 @@ module.exports = function(options) {
 		taskName: taskName,
 		setUpBaseTasks: setUpBaseTasks
 	};
+	
+	_.bindAll(newInstance, 'dest');
 	
 	newInstance.setUpBaseTasks();
 	

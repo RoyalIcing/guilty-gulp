@@ -1,6 +1,6 @@
 var svgmin = require('gulp-svgmin');
 
-modules.export = function images(gulp, guilty)
+module.exports = function imagesTask(gulp, guilty)
 {
 	// SVG Optimization
 	gulp.task(
