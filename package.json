@@ -29,6 +29,7 @@
     "gulp-uglify": "^0.3.1",
     "gulp-util": "^3.0.0",
     "lazypipe": "^0.2.2",
+    "underscore": "^1.6.0",
     "when": "^3.4.2"
   }
 }
