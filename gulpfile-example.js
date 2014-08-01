@@ -45,7 +45,7 @@ gulp.task(
 		'compass',
 		'coffee-browserify',
 		'jst',
-		'vendor-js', // Use specified 
+		'vendor-js', // Use the taskName customized above from the 'copy' task
 		'html'
 	])
 );
