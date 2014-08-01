@@ -1,11 +1,5 @@
-var coffee = require('gulp-coffee');
 var coffeeify = require('coffeeify');
-var jsBrowserifyTask = require('./js-browserify');
 var _ = require('underscore');
-
-//var browserify = require('gulp-browserify');
-//var rename = require('gulp-rename');
-//var plumber = require('gulp-plumber');
 
 module.exports = function coffeeBrowserifyTask(gulp, guilty, options)
 {
@@ -13,11 +7,14 @@ module.exports = function coffeeBrowserifyTask(gulp, guilty, options)
 		taskName: 'coffee-browserify',
 		srcFilePath: 'main.coffee',
 		destFilePath: 'main.js',
+		browserifySetUpCallback: function(browserifyInstance) {
+			browserifyInstance.transform(coffeeify);
+		},
 		browserifyOptions: {
-			transform: ['coffeeify'],
+			//transform: ['coffeeify'],
 			extensions: ['.coffee']
 		}
 	}, options);
 	
-	return jsBrowserifyTask(gulp, guilty, options);
+	return guilty.requireTask('js-browserify', options)
 };

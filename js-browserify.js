@@ -9,14 +9,15 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 		taskName: 'js-browserify',
 		srcFilePath: 'main.js',
 		destFilePath: 'main.js',
+		browserifySetUpCallback: function(browserifyInstance) {},
 		browserifyOptions: {}
 	}, options);
 	
 	var taskName = options.taskName;
-	
 	var srcFilePath = options.srcFilePath;
 	var destFilePath = options.destFilePath;
 	
+	var browserifySetUpCallback = options.browserifySetUpCallback;
 	var browserifyOptions = _.extend({
 		entries: './' + srcFilePath,
 		basedir: guilty.srcPath()
@@ -29,11 +30,13 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 			'setup'
 		]),
 		function() {
-			//var bundleStream = browserify(browserifyOptions).bundle();
-			var bundleStream = browserify({
-				entries: './' + srcFilePath,
-				basedir: guilty.srcPath()
-			}).bundle();
+			var browserifyInstance = browserify(browserifyOptions);
+			
+			if (browserifySetUpCallback) {
+				browserifySetUpCallback.call(null, browserifyInstance);
+			}
+			
+			var bundleStream = browserifyInstance.bundle();
 			
 			return bundleStream
 				.pipe(source(path.basename(destFilePath)))
