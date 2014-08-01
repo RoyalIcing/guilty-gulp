@@ -26,6 +26,8 @@ guilty.requireTask('copy', {
 
 ### Separate file for each common task and their watch functions.
 
+For a full example, see the [gulpfile-example.js](gulpfile-example.js) file.
+
 ### Production and Development
 
 It has separate production and development folders, just use the flag `--production` to build to a separate folder with minified CSS and JS.
