@@ -1,41 +1,56 @@
 var gulp = require('gulp');
+// Any errors from gulp get logged with a stack trace to where the problem came from.
 gulp.on('err', function(e) {
 	console.log(e.err.stack);
 });
 
 ///////////////////////////////////////////////////////////////////
 
-var guilty = require('./gulp-guilty/index')({
+var guilty = require('./guilty-gulp')({
 	taskNameGroup: 'main'
 });
 
-require('./gulp-guilty/images')(gulp, guilty);
-require('./gulp-guilty/compass')(gulp, guilty, {srcFilePath: 'main.scss', destCSSPath: './'});
-//require('./gulp-guilty/coffee-browserify')(gulp, guilty);
-//require('./gulp-guilty/js')(gulp, guilty);
-require('./gulp-guilty/js-browserify')(gulp, guilty, {srcFilePath: 'main.js'});
-require('./gulp-guilty/jst')(gulp, guilty);
-require('./gulp-guilty/copy')(gulp, guilty, {taskName: 'vendor-js', srcGlobPath: 'vendor-js/porthole.min.js'});
-require('./gulp-guilty/html')(gulp, guilty);
+// Optimizes and SVGs, copies across images.
+guilty.requireTask('images');
+
+// SCSS compiled using Compass and Autoprefixer.
+guilty.requireTask('compass', {
+	srcFilePath: 'main.scss',
+	destCSSPath: './'
+});
+
+// Browserify, for javascript use 'js-browserify'
+guilty.requireTask('coffee-browserify', {
+	srcFilePath: 'app.coffee',
+	destFilePath: 'main.js'
+});
+
+// Use as many copy tasks as you like, just give them a unique taskName.
+guilty.requireTask('copy', {
+	taskName: 'vendor-js',
+	srcPathGlob: 'vendor-js/porthole.min.js',
+	destPath: './'
+});
+
+// Copies any html files straight across.
+guilty.requireTask('html');
 
 
-// Main
+// Main task
 gulp.task(
 	guilty.taskNameGroup,
+	// Adds the prefix to the tasks, in this case 'main-...'
 	guilty.taskName([
-		//'clean',
 		'images',
 		'compass',
-		//'coffee-browserify',
-		'js-browserify',
+		'coffee-browserify',
 		'jst',
-		'vendor-js',
+		'vendor-js', // Use specified 
 		'html'
-		//'js'
 	])
 );
 
-
+// Just run our group's main task
 gulp.task(
 	'default',
 	[
@@ -43,7 +58,8 @@ gulp.task(
 	]
 );
 
-
+// Guilty Gulp sets up a watch task for each group automatically.
+// Easily add to this using guilty.addWatch(function)
 gulp.task(
 	'watch',
 	[
