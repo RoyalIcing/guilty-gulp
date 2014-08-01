@@ -5,8 +5,7 @@ module.exports = function htmlTask(gulp, guilty, options)
 {
 	options = _.extend({
 		taskName: 'html',
-		srcPathGlob: '**/*.html',
-		destPath: ''
+		srcPathGlob: '**/*.html'
 	}, options);
 	
 	return copyTask(gulp, guilty, options);

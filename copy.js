@@ -3,9 +3,9 @@ var _ = require('underscore');
 module.exports = function copyTask(gulp, guilty, options)
 {
 	options = _.extend({
-		taskName: null,
-		srcPathGlob: null,
-		destPath: null
+		taskName: 'copy',
+		srcPathGlob: '**/*',
+		destPath: './'
 	}, options);
 	
 	var taskName = options.taskName;

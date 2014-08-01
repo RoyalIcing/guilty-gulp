@@ -1,26 +1,35 @@
 var jstConcat = require('gulp-jst-concat');
+var path = require('path');
+var _ = require('underscore');
 
-module.exports = function javaScriptTask(gulp, guilty)
+module.exports = function jstTask(gulp, guilty, options)
 {
+	options = _.extend({
+		taskName: 'jst',
+		srcGlobPath: '**/*.jst',
+		destFilePath: 'jst.js'
+	}, options);
+	
+	var taskName = options.taskName;
+	var srcGlobPath = options.srcGlobPath;
+	var destFilePath = options.destFilePath;
+	
 	gulp.task(
-		guilty.taskName('jst'),
+		guilty.taskName(taskName),
 		guilty.taskName([
 			'setup'
 		]),
 		function() {
-			var jstStream = gulp.src(guilty.srcPath('**/*.jst'))
-				.pipe(jstConcat('jst.js', {
+			var jstStream = gulp.src(guilty.srcPath(srcGlobPath))
+				.pipe(jstConcat(path.basename(destFilePath), {
 					renameKeys: ['^.*/(.*).jst$', '$1']
 				}))
-				.pipe(guilty.destJS('js'))
+				.pipe(guilty.destJS(path.dirname(destFilePath)))
 			;
-			
-			//return jstStream.pipe(gulp.src(guilty.srcPath('**/*.js'), {base: guilty.srcPath()}))
-			//	.pipe(guilty.destJS('js'));
 		}
 	);
 	
 	guilty.addWatch(function() {
-		gulp.watch(guilty.srcPath('**/*.jst'), [guilty.taskName('jst')]);
+		gulp.watch(guilty.srcPath(srcGlobPath), [guilty.taskName(taskName)]);
 	});
 };
