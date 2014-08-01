@@ -3,6 +3,8 @@ Guilty Gulp
 
 Gulp set up for web assets. Conveniently create tasks for Browserify, CoffeeScript, Compass (SCSS), SVG.
 
+#### For a full example, see the [gulpfile-example.js](gulpfile-example.js) file.
+
 ### Create multiple groups of tasks, each with their own individual settings
 
 ```JavaScript
@@ -25,8 +27,6 @@ guilty.requireTask('copy', {
 ```
 
 ### Separate file for each common task and their watch functions.
-
-For a full example, see the [gulpfile-example.js](gulpfile-example.js) file.
 
 ### Production and Development
 
