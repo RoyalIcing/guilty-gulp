@@ -26,7 +26,7 @@ guilty.requireTask('copy', {
 });
 ```
 
-### Separate file for each common task and their watch functions.
+### Separate file for each common task with their watch functions.
 
 ### Production and Development
 
