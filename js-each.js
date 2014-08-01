@@ -1,15 +1,17 @@
-module.exports = function jsEachTask(gulp, guilty, srcPathGlob, destPath)
+module.exports = function jsEachTask(gulp, guilty, options)
 {
-	if (srcPathGlob == null) {
-		srcPathGlob = '**/*.js';
-	}
+	options = _.extend({
+		taskName: 'js-each',
+		srcPathGlob: '**/*.js',
+		destPath: './'
+	}, options);
 	
-	if (destPath == null) {
-		destPath = 'js';
-	}
+	var taskName = options.taskName;
+	var srcPathGlob = options.srcPathGlob;
+	var destPath = options.destPath;
 	
 	gulp.task(
-		guilty.taskName('js-each'),
+		guilty.taskName(taskName),
 		guilty.taskName([
 			'setup'
 		]),
@@ -20,6 +22,6 @@ module.exports = function jsEachTask(gulp, guilty, srcPathGlob, destPath)
 	);
 	
 	guilty.addWatch(function() {
-		gulp.watch(guilty.srcPath(srcPathGlob), [guilty.taskName('js-each')]);
+		gulp.watch(guilty.srcPath(srcPathGlob), [guilty.taskName(taskName)]);
 	});
 };

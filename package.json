@@ -1,6 +1,6 @@
 {
-  "name": "Gulp-Guilty",
-  "description": "Gulp set up for coffeescript, SCSS, SVG, with separate production and development folders",
+  "name": "guilty-gulp",
+  "description": "Gulp set up for browserify, coffeescript, compass (SCSS), SVG, with separate production and development folders",
   "version": "1.0.0",
   "private": true,
   "author": {
