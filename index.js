@@ -127,6 +127,17 @@ var setUpWatchTask = function()
 	});
 }
 
+var requireTask = function(taskName)
+{
+	var argumentsForTask = _.rest(_.toArray(arguments));
+	
+	// Add the arguments to the front: gulp, guilty
+	argumentsForTask.splice(0, 0, gulp, this);
+	
+	var taskCreatorFunction = require(path.join('./gulp-guilty/', taskName));
+	return taskCreatorFunction.apply(null, argumentsForTask);
+}
+
 
 
 module.exports = function(options) {
@@ -149,7 +160,8 @@ module.exports = function(options) {
 		watchFunctions: [],
 		addWatch: addWatch,
 		setUpWatchTask: setUpWatchTask,
-		watch: (typeof(options.watch) !== 'undefined')  ? options.watch : true
+		watch: (typeof(options.watch) !== 'undefined')  ? options.watch : true,
+		requireTask: requireTask
 	};
 	
 	_.bindAll(newInstance, 'srcPath', 'destPath', 'dest', 'destCSS', 'destJS', 'taskName');

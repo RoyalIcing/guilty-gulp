@@ -1,16 +1,32 @@
 var compass = require('gulp-compass');
 var prefix = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
+var _ = require('underscore');
 
-module.exports = function compassTask(gulp, guilty, filePath, destPath)
+module.exports = function compassTask(gulp, guilty, options)
 {
-	if (filePath == null) {
-		filePath = 'main.scss';
-	}
+	options = _.extend({
+		taskName: 'compass',
+		srcFilePath: 'main.scss',
+		watchSrcFileGlob: '**/*.scss',
+		destCSSPath: 'css/',
+		compassOptions: {}
+	}, options);
 	
-	if (destPath == null) {
-		destPath = 'css/';
-	}
+	var taskName = options.taskName;
+	
+	var srcFilePath = options.srcFilePath;
+	var destCSSPath = options.destCSSPath;
+	var watchSrcFileGlob = options.watchSrcFileGlob;
+	
+	var compassOptions = _.extend({
+		//config_file: './config.rb',
+		sass: guilty.srcPath(),
+		css: guilty.destPath(destCSSPath),
+		image: guilty.destPath('images'),
+		javascript: guilty.destPath('js'),
+		font: guilty.destPath('font')
+	}, compassOptions);
 	
 	gulp.task(guilty.taskName('compass'),
 		[
@@ -18,7 +34,7 @@ module.exports = function compassTask(gulp, guilty, filePath, destPath)
 			guilty.taskName('images')
 		],
 		function() {
-			return gulp.src(guilty.srcPath(filePath))
+			return gulp.src(guilty.srcPath(srcFilePath))
 				.pipe(plumber({
 					errorHandler: function(error) {
 						console.log(error.message);
@@ -28,21 +44,14 @@ module.exports = function compassTask(gulp, guilty, filePath, destPath)
 						})(error);*/
 					}
 				}))
-				.pipe(compass({
-					//config_file: './config.rb',
-					sass: guilty.srcPath(),
-					css: guilty.destPath(destPath),
-					image: guilty.destPath('images'),
-					javascript: guilty.destPath('js'),
-					font: guilty.destPath('font')
-				}))
+				.pipe(compass(compassOptions))
 				.pipe(prefix('last 2 version', '> 1%', 'ie 8'))
-				.pipe(guilty.destCSS(destPath))
+				.pipe(guilty.destCSS(destCSSPath))
 			;
 		}
 	);
 	
 	guilty.addWatch(function() {
-		gulp.watch(guilty.srcPath('**/*.scss'), [guilty.taskName('compass')]);
+		gulp.watch(guilty.srcPath(watchSrcFileGlob), [guilty.taskName('compass')]);
 	});
 };

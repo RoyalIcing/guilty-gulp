@@ -1,16 +1,28 @@
-module.exports = function copyTask(gulp, guilty, taskName, pathGlob)
+var _ = require('underscore');
+
+module.exports = function copyTask(gulp, guilty, options)
 {
+	options = _.extend({
+		taskName: null,
+		srcPathGlob: null,
+		destPath: null
+	}, options);
+	
+	var taskName = options.taskName;
+	var srcPathGlob = options.srcPathGlob;
+	var destPath = options.destPath;
+	
 	gulp.task(
 		guilty.taskName(taskName),
 		[
 			guilty.taskName('setup')
 		],
 		function() {
-			return gulp.src(guilty.srcPath(pathGlob), {base: guilty.srcPath('')})
-				.pipe(guilty.dest());
+			return gulp.src(guilty.srcPath(srcPathGlob), {base: guilty.srcPath()})
+				.pipe(guilty.dest(destPath));
 	});
 	
 	guilty.addWatch(function() {
-		gulp.watch(guilty.srcPath(pathGlob), [guilty.taskName(taskName)]);
+		gulp.watch(guilty.srcPath(srcPathGlob), [guilty.taskName(taskName)]);
 	});
 }

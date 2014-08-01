@@ -10,12 +10,12 @@ var guilty = require('./gulp-guilty/index')({
 });
 
 require('./gulp-guilty/images')(gulp, guilty);
-require('./gulp-guilty/compass')(gulp, guilty, 'main.scss', './');
-//require('./gulp-guilty/coffee')(gulp, guilty);
+require('./gulp-guilty/compass')(gulp, guilty, {srcFilePath: 'main.scss', destCSSPath: './'});
+//require('./gulp-guilty/coffee-browserify')(gulp, guilty);
 //require('./gulp-guilty/js')(gulp, guilty);
-require('./gulp-guilty/js-browserify')(gulp, guilty, 'main.js');
+require('./gulp-guilty/js-browserify')(gulp, guilty, {srcFilePath: 'main.js'});
 require('./gulp-guilty/jst')(gulp, guilty);
-require('./gulp-guilty/copy')(gulp, guilty, 'vendor-js', 'vendor-js/porthole.min.js');
+require('./gulp-guilty/copy')(gulp, guilty, {taskName: 'vendor-js', srcGlobPath: 'vendor-js/porthole.min.js'});
 require('./gulp-guilty/html')(gulp, guilty);
 
 
@@ -26,7 +26,7 @@ gulp.task(
 		//'clean',
 		'images',
 		'compass',
-		//'coffee',
+		//'coffee-browserify',
 		'js-browserify',
 		'jst',
 		'vendor-js',
