@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = function jsEachTask(gulp, guilty, options)
 {
 	options = _.extend({
