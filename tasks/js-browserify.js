@@ -26,9 +26,7 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 	
 	gulp.task(
 		guilty.taskName(taskName),
-		guilty.taskName([
-			'setup'
-		]),
+		guilty.defaultTaskDependencies(),
 		function() {
 			var browserifyInstance = browserify(browserifyOptions);
 			

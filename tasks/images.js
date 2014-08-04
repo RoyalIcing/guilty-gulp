@@ -1,30 +1,41 @@
 var svgmin = require('gulp-svgmin');
+var path = require('path');
+var _ = require('underscore');
+var gulpFilter = require('gulp-filter');
 
-module.exports = function imagesTask(gulp, guilty)
+module.exports = function imagesTask(gulp, guilty, options)
 {
-	// SVG Optimization
-	gulp.task(
-		guilty.taskName('images-svgo'),
-		[
-			guilty.taskName('setup')
-		],
-		function() {
-			return gulp.src(guilty.srcPath('**/*.svg'))
-				.pipe(svgmin())
-				.pipe(guilty.dest('images'))
-			;
-		}
-	);
+	options = _.extend({
+		taskName: 'images',
+		srcFolder: 'images',
+		destPath: 'images',
+		dependencies: []
+	}, options);
+	
+	var taskName = options.taskName;
+	var srcFolder = options.srcFolder;
+	var srcPathGlob = path.join(srcFolder, '/**/*');
+	var destPath = options.destPath;
+	
+	var dependencies = guilty.defaultTaskDependenciesWith(options.dependencies);
 
 	// Images
 	gulp.task(
-		guilty.taskName('images'),
-		[
-			guilty.taskName('setup'),
-			guilty.taskName('images-svgo')
-		],
+		guilty.taskName(taskName),
+		dependencies,
 		function() {
-			return gulp.src(guilty.srcPath('images/**'), {base: guilty.srcPath('images')})
-				.pipe(guilty.dest('images'));
+			var svgFilter = gulpFilter('**/*.svg');
+			
+			return gulp.src(guilty.srcPath(srcPathGlob), {base: guilty.srcPath(srcFolder)})
+				.pipe(svgFilter)
+				.pipe(svgmin())
+				.pipe(svgFilter.restore())
+				.pipe(guilty.dest(destPath))
+			;
+		}
+	);
+	
+	guilty.addWatch(function() {
+		gulp.watch(guilty.srcPath(srcPathGlob), [guilty.taskName(taskName)]);
 	});
 };

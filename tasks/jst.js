@@ -16,9 +16,7 @@ module.exports = function jstTask(gulp, guilty, options)
 	
 	gulp.task(
 		guilty.taskName(taskName),
-		guilty.taskName([
-			'setup'
-		]),
+		guilty.defaultTaskDependencies(),
 		function() {
 			var jstStream = gulp.src(guilty.srcPath(srcGlobPath))
 				.pipe(jstConcat(path.basename(destFilePath), {

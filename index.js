@@ -112,6 +112,20 @@ var setUpBaseTasks = function()
 	});
 }
 
+var defaultTaskDependencies = function()
+{
+	return [
+		this.taskName('setup')
+	];
+}
+
+var defaultTaskDependenciesWith = function(otherDependencies)
+{
+	var defaultTaskDependencies = this.defaultTaskDependencies();
+	otherDependencies = _.compact(otherDependencies); // Remove null or false
+	return _.union(defaultTaskDependencies, otherDependencies);
+}
+
 var addWatch = function(watchFunction)
 {
 	this.watchFunctions.push(watchFunction);
@@ -157,6 +171,8 @@ module.exports = function(options) {
 		destJS: destJS,
 		taskName: taskName,
 		setUpBaseTasks: setUpBaseTasks,
+		defaultTaskDependencies: defaultTaskDependencies,
+		defaultTaskDependenciesWith: defaultTaskDependenciesWith,
 		watchFunctions: [],
 		addWatch: addWatch,
 		setUpWatchTask: setUpWatchTask,

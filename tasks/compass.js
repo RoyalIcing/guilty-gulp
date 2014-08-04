@@ -10,6 +10,9 @@ module.exports = function compassTask(gulp, guilty, options)
 		srcFilePath: 'main.scss',
 		watchSrcFileGlob: '**/*.scss',
 		destCSSPath: 'css/',
+		dependencies: [
+			guilty.taskName('images')
+		],
 		compassOptions: {}
 	}, options);
 	
@@ -18,6 +21,8 @@ module.exports = function compassTask(gulp, guilty, options)
 	var srcFilePath = options.srcFilePath;
 	var destCSSPath = options.destCSSPath;
 	var watchSrcFileGlob = options.watchSrcFileGlob;
+	
+	var dependencies = guilty.defaultTaskDependenciesWith(options.dependencies);
 	
 	var compassOptions = _.extend({
 		//config_file: './config.rb',
@@ -29,10 +34,7 @@ module.exports = function compassTask(gulp, guilty, options)
 	}, compassOptions);
 	
 	gulp.task(guilty.taskName('compass'),
-		[
-			guilty.taskName('setup'),
-			guilty.taskName('images')
-		],
+		dependencies,
 		function() {
 			return gulp.src(guilty.srcPath(srcFilePath))
 				.pipe(plumber({

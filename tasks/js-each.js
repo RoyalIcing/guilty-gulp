@@ -14,9 +14,7 @@ module.exports = function jsEachTask(gulp, guilty, options)
 	
 	gulp.task(
 		guilty.taskName(taskName),
-		guilty.taskName([
-			'setup'
-		]),
+		guilty.defaultTaskDependencies(),
 		function() {
 			return gulp.src(guilty.srcPath(srcPathGlob), {base: guilty.srcPath()})
 				.pipe(guilty.destJS(destPath));
