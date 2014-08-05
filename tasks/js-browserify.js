@@ -8,6 +8,7 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 	options = _.extend({
 		taskName: 'js-browserify',
 		srcFilePath: 'main.js',
+		watchPathGlob: '**/*.js',
 		destFilePath: 'main.js',
 		browserifySetUpCallback: function(browserifyInstance) {},
 		browserifyOptions: {}
@@ -15,6 +16,7 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 	
 	var taskName = options.taskName;
 	var srcFilePath = options.srcFilePath;
+	var watchPathGlob = options.watchPathGlob || srcFilePath;
 	var destFilePath = options.destFilePath;
 	
 	var browserifySetUpCallback = options.browserifySetUpCallback;
@@ -44,6 +46,6 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 	);
 	
 	guilty.addWatch(function() {
-		gulp.watch(guilty.srcPath(srcFilePath), [guilty.taskName(taskName)]);
+		gulp.watch(guilty.srcPath(watchPathGlob), [guilty.taskName(taskName)]);
 	});
 };

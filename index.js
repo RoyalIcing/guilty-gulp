@@ -101,13 +101,22 @@ var setUpBaseTasks = function()
 {
 	var destPath = this.destPath();
 	
-	gulp.task(this.taskName('clean'), function() {
+	var self = this;
+	self.hasCleaned = false;
+	
+	gulp.task(this.taskName('clean-once'), function(cb) {
+		if (self.hasCleaned) {
+			return cb();
+		}
+		
+		self.hasCleaned = true;
+		
 		return gulp.src(destPath, {read: false})
 			.pipe(clean())
 		;
 	});
 
-	gulp.task(this.taskName('setup'), this.shouldClean() ? [this.taskName('clean')] : [], function(cb) {
+	gulp.task(this.taskName('setup'), this.shouldClean() ? [this.taskName('clean-once')] : [], function(cb) {
 		cb();
 	});
 }
