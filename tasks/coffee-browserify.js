@@ -8,14 +8,22 @@ module.exports = function coffeeBrowserifyTask(gulp, guilty, options)
 		srcFilePath: 'main.coffee',
 		watchPathGlob: '**/*.{js,coffee}',
 		destFilePath: 'main.js',
-		browserifySetUpCallback: function(browserifyInstance) {
-			browserifyInstance.transform(coffeeify);
-		},
-		browserifyOptions: {
-			//transform: ['coffeeify'],
-			extensions: ['.coffee']
-		}
+		browserifySetUpCallback: null,
+		browserifyOptions: {}
 	}, options);
+	
+	var passedCallback = options.browserifySetUpCallback;
+	options.browserifySetUpCallback = function(browserifyInstance) {
+		browserifyInstance.transform(coffeeify);
+		
+		if (passedCallback) {
+			passedCallback(browserifyInstance);
+		}
+	};
+	
+	options.browserifyOptions = _.extend({
+		extensions: ['.coffee']
+	}, options.browserifyOptions);
 	
 	return guilty.requireTask('js-browserify', options)
 };
