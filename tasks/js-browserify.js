@@ -1,6 +1,7 @@
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var path = require('path');
+var notify = require('gulp-notify');
 var _ = require('underscore');
 
 module.exports = function jsBrowserifyTask(gulp, guilty, options)
@@ -39,6 +40,7 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 			var bundleStream = browserifyInstance.bundle();
 			
 			return bundleStream
+				.on('error', notify.onError(taskName + ': <%= error.message %>'))
 				.pipe(source(path.basename(destFilePath)))
 				.pipe(guilty.destJS(path.dirname(destFilePath)))
 			;
