@@ -13,10 +13,11 @@ var guilty = require('./guilty-gulp')({
 });
 ```
 
-### Extensible tasks
+### Extensible tasks, and watch tasks built-in
 
 Create multiple variations of any task.
 Specify a `taskName`, which you can then use using `guilty.taskName('myTaskName')`.
+Watch tasks are automatically created based on the paths you specified.
 
 ```JavaScript
 guilty.requireTask('copy', {
@@ -26,7 +27,7 @@ guilty.requireTask('copy', {
 });
 ```
 
-### Separate file for each common task with their watch functions.
+### Separate file for each task
 
 ### Production and Development
 
