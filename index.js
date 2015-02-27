@@ -1,4 +1,3 @@
-var gulp = require('gulp');
 var gulputil = require('gulp-util');
 var path = require('path');
 var minifyCSS = require('gulp-minify-css');
@@ -41,6 +40,7 @@ var destPath = function(filePath)
 
 var dest = function(filePath)
 {
+	var gulp = this.gulp;
 	var stream = lazypipe();
 	
 	var destFilePath = this.destPath(filePath);
@@ -99,6 +99,7 @@ var taskName = function(inputTaskNameOrNames)
 
 var setUpBaseTasks = function()
 {
+	var gulp = this.gulp;
 	var destPath = this.destPath();
 	
 	var self = this;
@@ -142,6 +143,7 @@ var addWatch = function(watchFunction)
 
 var setUpWatchTask = function()
 {
+	var gulp = this.gulp;
 	var watchFunctions = this.watchFunctions;
 	
 	gulp.task(this.taskName('watch'), function() {
@@ -152,6 +154,7 @@ var setUpWatchTask = function()
 
 var requireTask = function(taskName)
 {
+	var gulp = this.gulp;
 	var argumentsForTask = _.rest(_.toArray(arguments));
 	
 	// Add the arguments to the front: gulp, guilty
@@ -164,10 +167,13 @@ var requireTask = function(taskName)
 
 
 module.exports = function(options) {
+	var gulp = options.gulp ? options.gulp : require('gulp');
+	
 	var baseSrcFolder = './src/'
 	var baseDestFolder = isProduction() ? './prod/' : './dev/';
 	
 	var newInstance = {
+		gulp: gulp,
 		taskNameGroup: options.taskNameGroup,
 		isProduction: isProduction,
 		shouldClean: shouldClean,
@@ -188,6 +194,10 @@ module.exports = function(options) {
 		watch: (typeof(options.watch) !== 'undefined')  ? options.watch : true,
 		requireTask: requireTask
 	};
+	
+	if (options.onError) {
+		gulp.on('err', options.onError);
+	}
 	
 	_.bindAll(newInstance, 'srcPath', 'destPath', 'dest', 'destCSS', 'destJS', 'taskName');
 	

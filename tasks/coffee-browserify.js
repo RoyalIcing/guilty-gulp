@@ -6,7 +6,7 @@ module.exports = function coffeeBrowserifyTask(gulp, guilty, options)
 	options = _.extend({
 		taskName: 'coffee-browserify',
 		srcFilePath: 'main.coffee',
-		watchPathGlob: '**/*.{js,coffee}',
+		watchPathGlob: '**/*.{coffee,js,json}',
 		destFilePath: 'main.js',
 		browserifySetUpCallback: null,
 		browserifyOptions: {}
