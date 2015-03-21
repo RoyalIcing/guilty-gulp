@@ -161,7 +161,9 @@ var requireTask = function(taskName)
 	argumentsForTask.splice(0, 0, gulp, this);
 	
 	var taskCreatorFunction = require(path.join(__dirname, 'tasks', taskName));
-	return taskCreatorFunction.apply(null, argumentsForTask);
+	taskCreatorFunction.apply(null, argumentsForTask);
+	
+	return taskName;
 }
 
 

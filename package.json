@@ -1,8 +1,8 @@
 {
   "name": "guilty-gulp",
-  "description": "Gulp set up for browserify, coffeescript, compass (SCSS), SVG, with separate production and development folders",
-  "version": "1.1.0",
-  "private": true,
+  "description": "Gulp set up for browserify, babel, coffeescript, compass (SCSS), SVG, with separate production and development folders",
+  "version": "1.2.0",
+  "repository": "burntcaramel/guilty-gulp",
   "author": {
     "name": "Patrick Smith",
     "email": "patrick@burntcaramel.com",
@@ -37,5 +37,11 @@
     "underscore": "^1.6.0",
     "vinyl-source-stream": "^0.1.1",
     "when": "^3.4.2"
-  }
+  },
+  "licenses": [
+	  {
+		  "type": "MIT",
+		  "url": "https://raw.githubusercontent.com/gulpjs/gulp/master/LICENSE"
+	  }
+  ]
 }
