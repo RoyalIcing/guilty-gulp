@@ -1,7 +1,7 @@
 {
   "name": "guilty-gulp",
   "description": "Gulp set up for browserify, babel, coffeescript, compass (SCSS), SVG, with separate production and development folders",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "repository": "burntcaramel/guilty-gulp",
   "author": {
     "name": "Patrick Smith",
@@ -11,7 +11,7 @@
   "engines": {
     "node": ">= 0.9"
   },
-  "devDependencies": {
+  "dependencies": {
     "babelify": "^5.0.3",
     "browserify": "^5.9.1",
     "coffeeify": "^0.7.0",
