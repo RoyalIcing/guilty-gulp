@@ -1,7 +1,7 @@
 {
   "name": "guilty-gulp",
   "description": "Gulp set up for browserify, babel, coffeescript, compass (SCSS), SVG, with separate production and development folders",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "repository": "burntcaramel/guilty-gulp",
   "author": {
     "name": "Patrick Smith",
@@ -19,6 +19,7 @@
     "gulp": "^3.8.6",
     "gulp-autoprefixer": "0.0.8",
     "gulp-browserify": "^0.5.0",
+    "gulp-cached": "^1.1.0",
     "gulp-clean": "~0.2.4",
     "gulp-coffee": "^2.1.1",
     "gulp-compass": "^1.2.0",
@@ -38,10 +39,5 @@
     "vinyl-source-stream": "^0.1.1",
     "when": "^3.4.2"
   },
-  "licenses": [
-	  {
-		  "type": "MIT",
-		  "url": "https://raw.githubusercontent.com/gulpjs/gulp/master/LICENSE"
-	  }
-  ]
+  "license": "MIT"
 }

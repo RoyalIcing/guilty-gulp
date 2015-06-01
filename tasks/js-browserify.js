@@ -37,18 +37,21 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 		extensions: ['.js']
 	}, options.browserifyOptions);
 	
+	// NORMAL TASK
 	gulp.task(
 		guilty.taskName(taskName),
 		guilty.defaultTaskDependencies(),
 		function() {
 			var browserifyInstance = browserify(browserifyOptions);
 			
+			// Babel: ES6+ features
 			if (useBabel) {
 				browserifyInstance.transform(
 					babelify
 				);
 			}
 			
+			// Envify
 			browserifyInstance.transform(
 				{
 					global: envifyIsGlobal
@@ -56,11 +59,14 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 				envify(envifyEnvironment)
 			);
 			
+			// Custom set up in a specified callback
 			if (browserifySetUpCallback) {
 				browserifySetUpCallback.call(null, browserifyInstance);
 			}
 			
+			// Do the browserify thing.
 			var bundleStream = browserifyInstance.bundle();
+			
 			
 			return bundleStream
 				.on('error', function(error) {
@@ -74,6 +80,7 @@ module.exports = function jsBrowserifyTask(gulp, guilty, options)
 		}
 	);
 	
+	// WATCH TASK
 	guilty.addWatch(function() {
 		gulp.watch(guilty.srcPath(watchPathGlob), [guilty.taskName(taskName)]);
 	});

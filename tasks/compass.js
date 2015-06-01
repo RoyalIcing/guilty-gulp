@@ -2,6 +2,7 @@ var compass = require('gulp-compass');
 var prefix = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');
 var path = require('path');
+var fs = require('fs');
 var _ = require('underscore');
 
 module.exports = function compassTask(gulp, guilty, options)
@@ -28,12 +29,19 @@ module.exports = function compassTask(gulp, guilty, options)
 	
 	var compassOptions = _.extend({
 		//config_file: './config.rb',
-		sass: guilty.srcPath(),
+		//project: path.join(__dirname, guilty.srcPath()),
+		//project: fs.realpathSync(__dirname + guilty.srcPath()),
+		//project: path.join(guilty.srcPath(), path.dirname(srcFilePath)),
+		//sass: guilty.srcPath(),
+		//sass: path.dirname(srcFilePath),
+		sass: path.join(guilty.srcPath(), path.dirname(srcFilePath)),
 		css: guilty.destPath(destCSSDirectoryPath),
 		image: guilty.destPath('images'),
 		javascript: guilty.destPath('js'),
 		font: guilty.destPath('font')
 	}, compassOptions);
+	
+	//console.log('compassOptions', compassOptions);
 	
 	gulp.task(guilty.taskName('compass'),
 		dependencies,
